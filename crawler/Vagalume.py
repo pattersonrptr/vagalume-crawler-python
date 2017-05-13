@@ -1,5 +1,7 @@
-import requests
-from bs4 import BeautifulSoup
+""" Crawler que extrai uma lista de músicas do Vagalume """
+
+import requests					# Para fazer requisições HTTP
+from bs4 import BeautifulSoup	# Para extrair dados de arquivos HTML
 
 class Vagalume:
 	""" Esta classe emcapsula o Crawler que extrai do site www.vagalume.com.br,
@@ -12,8 +14,7 @@ class Vagalume:
 		r = requests.get(url % busca)
 		soup = BeautifulSoup(r.text, "lxml")
 		faixa = [title.text
-
-		for title in soup.findAll('span', attrs={'itemprop':'name'})]
+		for title in soup.findAll('span', attrs={ 'itemprop' : 'name' }) ]
 
 		for count, t in enumerate(faixa):
 			print(format(count + 1, '02d') +')', t)
