@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class Vagalume:
 	""" Esta classe emcapsula o Crawler que extrai do site www.vagalume.com.br,
-	informações de músicas de uma determinada banda  """
+	títulos de músicas de uma determinada banda  """
 
 	def crawler(self, busca):
 		""" Extrai as músicas da banda passada pelo url """
