@@ -4,10 +4,6 @@
 # O arquivo pode conter o nome de várias bandas e artistas, separados por
 # um em cada linha ou por um caractere corinda como | #  ou ;
 
-# TODO: Talvez deixar o usuário escolher uma música da lista
-# e direcioná-lo para a página para escutá-la e, também, dar uma opção
-# para que ele possa ver a letra e a tradução no terminal.
-
 from crawler.Vagalume import Vagalume
 import sys
 
@@ -31,6 +27,8 @@ def checa_params():
 			print('\nUSO: %s -b nome de uma banda' % args[0])
 			print('\nOpções:\n')
 			print('-b, --banda          busca as músicas de uma banda.')
+			print('-a, --arquivo        permite ler a banda a partir de um arquivo')		# TODO
+			print('-V, --version        mostra a versão e sai.')
 			print('-h, --help           mostra esta mensagem de ajuda e sai.')
 			exit(0)
 		else:
@@ -39,6 +37,16 @@ def checa_params():
 	else:
 		string = input('>> Buscar: ')
 		busca['q'] = "-".join( string.split()  )
+
+def version():
+	# TODO
+	""" Mostra a versão do programa extraída do cabeçalho """
+	pass
+
+def arquivo():
+	# TODO
+	""" Lê uma banda de um arquivo """
+	pass
 
 def main_func():
 	checa_params()
