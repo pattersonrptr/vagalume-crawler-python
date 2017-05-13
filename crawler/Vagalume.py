@@ -13,8 +13,27 @@ class Vagalume:
 		url = 'https://www.vagalume.com.br/%(q)s/'
 		r = requests.get(url % busca)
 		soup = BeautifulSoup(r.text, "lxml")
-		faixa = [title.text
-		for title in soup.findAll('span', attrs={ 'itemprop' : 'name' }) ]
 
+		lista = soup.findAll('ol', attrs={'class' : 'artTops'})
+
+		for element in lista:
+			for count, span in enumerate( element.findAll('span') ):
+				# print (span.text)
+				print(format(count + 1, '02d') +')', span.text)
+
+		'''
+		faixa = [element
+		# for title in soup.find_all('span',  attrs={ 'itemprop' : 'name' }) ]
+		for element in soup.findAll('ol',  attrs={ 'class' : 'artTops' }) ]
+		'''
+
+		'''
+		for element in faixa:
+			print (element.findAll('span'))
+		'''
+
+		# print(len(span), 'resultados encontrados!')
+		'''
 		for count, t in enumerate(faixa):
 			print(format(count + 1, '02d') +')', t)
+		'''
