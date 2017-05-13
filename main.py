@@ -4,10 +4,11 @@
 # e direcioná-lo para a página para escutá-la e, também, dar uma opção
 # para que ele possa ver a letra e a tradução no terminal.
 
-from bs4 import BeautifulSoup
-from optparse import OptionParser
 
-import requests
+
+from crawler import vagalume
+
+
 import sys
 
 url = 'https://www.vagalume.com.br/%(q)s/'
@@ -38,14 +39,6 @@ def checa_params():
 	else:
 		busca['q'] = input('>> Buscar: ')
 
-def vagalume_crawler():
-	r = requests.get(url % busca)
-	soup = BeautifulSoup(r.text, "lxml")
-	faixa = [title.text
-	for title in soup.findAll('span', attrs={'itemprop':'name'})]
-
-	for count, t in enumerate(faixa):
-		print(str(count + 1)+')', t)
 
 def buscar_novamente():
 	op = input("Buscar novamente? ( S | N )").upper()
@@ -59,7 +52,7 @@ def buscar_novamente():
 def main_func():
 	checa_params()
 	print("\nBuscando por", busca['q'].replace('-', ' ') + "...\n")
-	vagalume_crawler()
+	vagalume.crawler(url, busca)
 	print('\n-----------------------------------------------------------\n')
 
 
