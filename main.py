@@ -1,17 +1,17 @@
 #! /usr/bin/python3
 
+# TODO:  ADICIONAR OPÇÃO PARA LER O NOME DA BANDA EM UM ARQUIVO
+# O arquivo pode conter o nome de várias bandas e artistas, separados por
+# um em cada linha ou por um caractere corinda como | #  ou ;
+
 # TODO: Talvez deixar o usuário escolher uma música da lista
 # e direcioná-lo para a página para escutá-la e, também, dar uma opção
 # para que ele possa ver a letra e a tradução no terminal.
 
-
-
-from crawler import vagalume
-
-
+from crawler.Vagalume import Vagalume
 import sys
 
-url = 'https://www.vagalume.com.br/%(q)s/'
+v = Vagalume()
 
 args_l = len(sys.argv)
 args = sys.argv
@@ -37,22 +37,14 @@ def checa_params():
 			print("Erro: Opção inválida ", args[1])
 			exit(1)
 	else:
-		busca['q'] = input('>> Buscar: ')
-
-
-def buscar_novamente():
-	op = input("Buscar novamente? ( S | N )").upper()
-
-	if op != "N" and op != "S":
-		print("Opção inválida:", op)
-		buscar_novamente()
-
-	return op
+		string = input('>> Buscar: ')
+		busca['q'] = "-".join( string.split()  )
 
 def main_func():
 	checa_params()
-	print("\nBuscando por", busca['q'].replace('-', ' ') + "...\n")
-	vagalume.crawler(url, busca)
+	print("\nBuscando por", busca['q'].replace('-', ' ')
+	.lower().title() + "...\n")
+	v.crawler(busca)
 	print('\n-----------------------------------------------------------\n')
 
 
