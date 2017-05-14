@@ -35,12 +35,15 @@ args = sys.argv			# Argumentos recebidos da linha de comandos
 args_l = len(sys.argv)	# Quantidade de argumentos passados
 v = Vagalume()			# Crawler do Vagalume
 busca = dict()			# Dicionário de busca
-qtd = 15				# Buscar 15 primeiras musicas (padrão)
+qtd = 99999				# Quantidade a ser listada
+todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas em ordem alfabética
 
 help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
     -b  \"nome da banda\"   busca as músicas de uma banda.\n\
     -a  \"bandas.txt\"      permite ler a banda a partir de um arquivo\n\
+    -t                    Listar todas as musicas em ordem alfabética\n\
+    -n                    Quantidade de musicas a listar\n\
     -v                    mostra a versão e sai\n\
     -h                    mostra esta mensagem de ajuda e sai\n"
 
@@ -48,7 +51,7 @@ def checa_params():
 	""" Checa as opções da linha de comandos """
 
 	try:
-		opts, args = getopt.getopt(sys.argv[1:],"vhn:b:a:")
+		opts, args = getopt.getopt(sys.argv[1:],"vhtn:b:a:")
 		for opt, arg in opts:
 			if opt == "-b":
 				busca['q'] = arg.replace(" ", "-")
@@ -56,6 +59,10 @@ def checa_params():
 			elif opt == "-n":
 				global qtd
 				qtd = int(arg)
+
+			elif opt == "-t":
+				global todas
+				todas = True
 
 			elif opt == "-a":
 				if '-b' not in sys.argv: # A opção -b tem prioridade sobre a -a
@@ -85,7 +92,7 @@ def rm_acentos_e_chars_especiais(palavra):
 	return re.sub('[^a-zA-Z0-9 \\\]', '', palavraSemAcento)
 
 def version():
-	""" Retorna a versão do programa extraída do cabeçalho """
+	""" Retorna a versão do programa """
 
 	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ + "\n\nLicença " + __license__ + "\
 	\nEste é um software livre: você é livre para alterá-lo e redistribuí-lo.\
@@ -127,7 +134,7 @@ def main_func():
 
 	busca['q'] = rm_acentos_e_chars_especiais(busca['q'])
 	# manda o Crawler fazer a busca
-	v.crawler(busca, qtd)
+	v.crawler(busca, qtd, todas)
 	print('\n ------------------------------------------------------------- \n')
 
 # ===========================================================================
