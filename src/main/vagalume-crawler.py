@@ -11,13 +11,15 @@
     Python Version: 3.5.3
 """
 
-from crawler.Vagalume import Vagalume	# Importa o crawler do Vagalume
-import getopt
-import sys
 import os
+import sys
+sys.path.insert(0, '../') # /src
 
+import getopt
 import unicodedata
 import re
+
+from crawler.vagalume import Vagalume	# Importa o crawler do Vagalume
 
 # Informações sobre o programa
 __author__ = "Patterson A. da Silva jr"
@@ -141,6 +143,7 @@ def main_func():
 # ===========================================================================
 
 if __name__ == "__main__":
+	
 	main_func() # Inicio do programa
 
 
