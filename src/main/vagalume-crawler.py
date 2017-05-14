@@ -150,7 +150,7 @@ def main_func():
 	busca['q'] = rm_acentos_e_chars_especiais(busca['q'])
 	# manda o Crawler fazer a busca
 	v.crawler(busca, qtd, todas)
-	
+
 	print('\n ------------------------------------------------------------- \n')
 
 # ===========================================================================
