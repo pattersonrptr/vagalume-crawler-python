@@ -36,28 +36,33 @@ v = Vagalume()			# Crawler do Vagalume
 busca = dict()			# Dicionário de busca
 qtd = 15				# Quantidade a ser listada
 todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas em ordem alfabética
+musica = str()          # Busca por uma musica específica
 
 nome_programa = os.path.basename(__file__).split('.')[0] # Obtém o nome do programa sem a extensão .py
 
 # Mensagem de ajuda que é exibida sempre que passada a opção -h ou após uma mensagem de erro
 help_msg = "\nUSO: python " + nome_programa + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
-    -b  \"nome da banda\"                   busca as músicas de uma banda.\n\
-    -a  \"bandas.txt\"                      permite ler a banda a partir de um arquivo\n\
-    -t                                    Listar todas as musicas em ordem alfabética\n\
-    -n                                    Quantidade de musicas a listar\n\
-    -v                                    mostra a versão e sai\n\
-    -h                                    mostra esta mensagem de ajuda e sai\n\n\
+    -b  \"nome da banda\"          busca as músicas de uma banda.\n\
+    -m  musica                   buscar uma musica específica\n\
+    -a  \"bandas.txt\"             permite ler a banda a partir de um arquivo\n\
+    -t                           listar todas as musicas em ordem alfabética\n\
+    -n                           quantidade de musicas a listar\n\
+    -v                           mostra a versão e sai\n\
+    -h                           mostra esta mensagem de ajuda e sai\n\n\
 OBS. Nomes de bandas compostos por mais de uma palavra, devem ser\n \
      passados entre aspas, exemplo: \n \
-     python " + nome_programa + " -b \"system of a down\"\n"
+     python " + nome_programa + " -b \"system of a down\"\n\n\
+	 na opção -m o nome da musica, se for composto por mais de uma palavra,\
+	 deve ser passado entre aspas, exemplo: \n  \
+	 python " + nome_programa + " -b \"system of a down\"\n\n"
 
 def checa_params():
 	""" verifica e trata as opções da linha de comandos """
 
 	try:
 		# Define as opções que o programa pode receber e se recebem parâmetros
-		opts, args = getopt.getopt(sys.argv[1:],"vhtn:b:a:")
+		opts, args = getopt.getopt(sys.argv[1:],"vhtn:b:a:m:")
 
 		for opt, arg in opts:
 			if opt == "-b":							# Recebe o nome da banda passado na linha de comandos
@@ -66,6 +71,10 @@ def checa_params():
 			elif opt == "-n":
 				global qtd			# Define a quantidade máxima de musicas a ser lida
 				qtd = int(arg)		# recebe da linha de comandos
+
+			elif opt == "-m":       # busca por uma musica específica
+				global musica
+				musica = arg
 
 			elif opt == "-t":
 				global todas		# Se passado -t na linha de comandos
@@ -148,7 +157,7 @@ def main_func():
 	# Retira acentos e caracteres especiais
 	busca['q'] = rm_acentos_e_chars_especiais(busca['q'])
 	# manda o Crawler fazer a busca
-	v.crawler(busca, qtd, todas)
+	v.crawler(busca, qtd, todas, musica)
 
 	print('\n ------------------------------------------------------------- \n')
 

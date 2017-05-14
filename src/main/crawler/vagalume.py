@@ -9,16 +9,38 @@ class Vagalume:
 	títulos de músicas de uma determinada banda  """
 
 
-	def crawler(self, busca, qtd = 15, todas = False):
+	def crawler(self, busca, qtd = 15, todas = False, musica = str()):
 		""" Extrai as músicas da banda passada pelo url
 		 	Recebe a busca, a quantidade a buscar (opcional)
-			e se deve buscar todas (opcional) """
+			e se deve buscar todas (opcional) .
+			Se a variável musica não for vazia, então busca uma musica
+			específica na lista de musicas.
+		"""
 
 		url = 'https://www.vagalume.com.br/%(q)s/' # Prepara a URL de busca
 		r = requests.get(url % busca)			   # Obtem a resposta do site com o HTML
+		encontrou = False # Verifica se encontrou musica específica
 
 		# Interpreta a resposta e retorna em forma de texto HTML para a variável soup
 		soup = BeautifulSoup(r.text, "lxml")
+
+		if musica:
+
+			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
+
+			print('Resultado: ')
+
+			for element in lista:
+				for count, span in enumerate( element.findAll('span') ):
+					if musica.lower() in span.text.lower():
+						print(format(count + 1, '02d') +')', span.text.title())
+						encontrou = True
+
+			if not encontrou:
+				print('Não foi encontrada nenhuma musica', musica.title())
+
+			return
+
 
 		# Se for definido todas, busca as musicas em lista normalmente
 		if todas:
