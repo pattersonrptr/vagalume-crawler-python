@@ -41,7 +41,7 @@ musica = str()          # Busca por uma musica específica
 nome_programa = os.path.basename(__file__).split('.')[0] # Obtém o nome do programa sem a extensão .py
 
 # Mensagem de ajuda que é exibida sempre que passada a opção -h ou após uma mensagem de erro
-help_msg = "\nUSO: python " + nome_programa + " -b \"nome de uma banda\"\n\
+help_msg = "\nUSO: python3 " + nome_programa + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
     -b  \"nome da banda\"          busca as músicas de uma banda.\n\
     -m  musica                   buscar uma musica específica\n\
@@ -52,10 +52,10 @@ help_msg = "\nUSO: python " + nome_programa + " -b \"nome de uma banda\"\n\
     -h                           mostra esta mensagem de ajuda e sai\n\n\
 OBS. Nomes de bandas compostos por mais de uma palavra, devem ser\n \
      passados entre aspas, exemplo: \n \
-     python " + nome_programa + " -b \"system of a down\"\n\n\
+     python3 " + nome_programa + " -b \"system of a down\"\n\n\
 	 na opção -m o nome da musica, se for composto por mais de uma palavra,\
 	 deve ser passado entre aspas, exemplo: \n  \
-	 python " + nome_programa + " -b \"system of a down\"\n\n"
+	 python3 " + nome_programa + " -b \"system of a down\"\n\n"
 
 def checa_params():
 	""" verifica e trata as opções da linha de comandos """

@@ -1,5 +1,5 @@
 """ Módulo Vagalume.
- 	contém a classe vagalume que implementa o Crawler."""
+ contém a classe vagalume que implementa o Crawler."""
 
 import requests                 # Para fazer requisições HTTP
 from bs4 import BeautifulSoup   # Para extrair dados de arquivos HTML
@@ -41,7 +41,7 @@ class Vagalume:
 						encontrou = True
 
 			if not encontrou:
-				print('Não foi encontrada nenhuma musica', musica.title())
+				print('Não foi encontrada nenhuma musica com a palavra', musica.title())
 
 			return
 
