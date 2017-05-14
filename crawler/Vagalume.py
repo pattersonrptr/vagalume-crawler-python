@@ -16,7 +16,7 @@ class Vagalume:
 		r = requests.get(url % busca)
 		soup = BeautifulSoup(r.text, "lxml")
 
-		if todas == True:
+		if todas:
 			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
 		else:
 			lista = soup.findAll('ol', attrs={'class' : 'artTops'})
