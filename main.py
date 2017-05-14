@@ -36,13 +36,14 @@ qtd = 15				# Buscar 15 primeiras musicas (padrão)
 
 help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
-    -b    busca as músicas de uma banda.\n\
-    -a    permite ler a banda a partir de um arquivo\n\
-    -v    mostra a versão e sai\n\
-    -h    mostra esta mensagem de ajuda e sai\n"
+    -b  \"nome da banda\"   busca as músicas de uma banda.\n\
+    -a  \"bandas.txt\"      permite ler a banda a partir de um arquivo\n\
+    -v                    mostra a versão e sai\n\
+    -h                    mostra esta mensagem de ajuda e sai\n"
 
 def checa_params():
 	""" Checa as opções da linha de comandos """
+
 	try:
 		opts, args = getopt.getopt(sys.argv[1:],"vhn:b:a")
 		for opt, arg in opts:
@@ -54,8 +55,8 @@ def checa_params():
 				qtd = int(arg)
 
 			elif opt == "-a":
-				if '-b' not in args:
-					arquivo()
+				if '-b' not in sys.argv: # A opção -b tem prioridade sobre a -a
+					arquivo( arg )
 
 			elif opt == "-v":
 				print( version() )
@@ -65,7 +66,7 @@ def checa_params():
 				print(help_msg)
 				print("Author: " + __author__)
 				print( version() )
-				exit(0) # Sai sem erro
+				exit(0)
 
 	except getopt.GetoptError:
 	    print (help_msg)
@@ -74,12 +75,13 @@ def checa_params():
 def version():
 	""" Retorna a versão do programa extraída do cabeçalho """
 
-	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ + "\n\nLicença " + __license__ + "\
+	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ +
+	"\n\nLicença " + __license__ + "\
 	\nEste é um software livre: você é livre para alterá-lo e redistribuí-lo.\
 	\nNÃO HÁ GARANTIA, na máxima extensão permitida pela lei\n"
 
-def arquivo():
-	f = open('bandas.txt', 'r', encoding="utf8")
+def arquivo(arq):
+	f = open(arq, 'rw', encoding="utf8")
 	bandas = []
 
 	for i, line in enumerate(f):

@@ -7,7 +7,7 @@ class Vagalume:
 	""" Esta classe emcapsula o Crawler que extrai do site www.vagalume.com.br,
 	títulos de músicas de uma determinada banda  """
 
-	def crawler(self, busca, qtd):
+	def crawler(self, busca, qtd = 15):
 		""" Extrai as músicas da banda passada pelo url """
 
 		url = 'https://www.vagalume.com.br/%(q)s/'
