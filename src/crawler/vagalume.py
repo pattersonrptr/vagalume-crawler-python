@@ -1,8 +1,8 @@
 """ Módulo Vagalume.
  	contém a classe vagalume que implementa o Crawler."""
 
-import requests					# Para fazer requisições HTTP
-from bs4 import BeautifulSoup	# Para extrair dados de arquivos HTML
+import requests                 # Para fazer requisições HTTP
+from bs4 import BeautifulSoup   # Para extrair dados de arquivos HTML
 
 class Vagalume:
 	""" Esta classe emcapsula o Crawler que extrai do site www.vagalume.com.br,

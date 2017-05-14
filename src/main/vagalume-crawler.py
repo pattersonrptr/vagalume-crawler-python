@@ -11,13 +11,13 @@
     Python Version: 3.5.3
 """
 
-import os
-import sys
+import os                 # Para funções do sistema
+import sys                # para sys.argv
 sys.path.insert(0, '../') # /src
 
-import getopt
-import unicodedata
-import re
+import getopt        # Para tratar as opções de linha de comandos
+import unicodedata   # para remover acentos em strings
+import re            # Para expressões regulares
 
 from crawler.vagalume import Vagalume	# Importa o crawler do Vagalume
 
@@ -38,60 +38,68 @@ busca = dict()			# Dicionário de busca
 qtd = 15				# Quantidade a ser listada
 todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas em ordem alfabética
 
-help_msg = "\nUSO: python " + os.path.basename(__file__).split('.')[0] + " -b \"nome de uma banda\"\n\
+nome_programa = os.path.basename(__file__).split('.')[0] # Obtém o nome do programa sem a extensão .py
+
+# Mensagem de ajuda que é exibida sempre que passada a opção -h ou após uma menságem de erro
+help_msg = "\nUSO: python " + nome_programa + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
     -b  \"nome da banda\"                   busca as músicas de uma banda.\n\
-    -a  \"../../resources/bandas.txt\"      permite ler a banda a partir de um arquivo\n\
+    -a  \"bandas.txt\"                      permite ler a banda a partir de um arquivo\n\
     -t                                    Listar todas as musicas em ordem alfabética\n\
     -n                                    Quantidade de musicas a listar\n\
     -v                                    mostra a versão e sai\n\
     -h                                    mostra esta mensagem de ajuda e sai\n\n\
 OBS. Nomes de bandas compostos por mais de uma palavra, devem ser\n \
      passados entre aspas, exemplo: \n \
-     python " + os.path.basename(__file__) + " -b \"system of a down\"\n"
+     python " + nome_programa + " -b \"system of a down\"\n"
 
 def checa_params():
-	""" Checa as opções da linha de comandos """
+	""" verifica e trata as opções da linha de comandos """
 
 	try:
+		# Define as opções que o programa pode receber e se recebem parâmetros
 		opts, args = getopt.getopt(sys.argv[1:],"vhtn:b:a:")
 
 		for opt, arg in opts:
-			if opt == "-b":
-				busca['q'] = arg.replace(" ", "-")
+			if opt == "-b":							# Recebe o nome da banda passado na linha de comandos
+				busca['q'] = arg.replace(" ", "-")  # e substitui os espaços por hífens
 
 			elif opt == "-n":
-				global qtd
-				qtd = int(arg)
+				global qtd			# Define a quantidade máxima de musicas a ser lida
+				qtd = int(arg)		# recebe da linha de comandos
 
 			elif opt == "-t":
-				global todas
-				todas = True
+				global todas		# Se passado -t na linha de comandos
+				todas = True		# Lê todas as músicas e não só as mais conhecidas
+									# respeitando o limite de 15 ou o que for passado pela opção -n
 
 			elif opt == "-a":
 				if '-b' not in sys.argv: # A opção -b tem prioridade sobre a -a
-					arquivo( arg )
+					arquivo( arg )		 # Exibe uma lista de nomes de bandas gravada num arquivo
+										 # pede para o usuário escolher uma banda
 
 			elif opt == "-v":
-				print( version() )
+				print( version() )		# mostra a versão do programa e sai
 				exit( 0 )
 
 			elif opt == "-h":
-				print(help_msg)
+				print(help_msg)			# Mostra Ajuda, Autor e versão, termina o programa em seguida
 				print("Author: " + __author__)
 				print( version() )
 				exit(0)
 
-	except getopt.GetoptError as err:
-		print ( str(err) )
-		print (help_msg)
+	except getopt.GetoptError as err: # Se houver erro
+		print ( str(err) )		      # Mostra o erro e uma mensagem de ajuda e finaliza o programa
+		print (help_msg)			  # retornando código de erro 2.
 		sys.exit(2)
 
 def rm_acentos_e_chars_especiais(palavra):
+	""" Transforma caracteres com acento em caracteres normais.
+		Também remove caracteres especiais """
+
 	# Unicode normalize transforma um caracter em seu equivalente em latin.
 	nfkd = unicodedata.normalize('NFKD', palavra)
 	palavraSemAcento = u"".join([c for c in nfkd if not unicodedata.combining(c)])
-
 	# Regex para retornar a palavra apenas com números, letras e espaço
 	return re.sub('[^a-zA-Z0-9 \\\]', '', palavraSemAcento)
 
