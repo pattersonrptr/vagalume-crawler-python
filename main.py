@@ -18,6 +18,9 @@ import getopt
 import sys
 import os
 
+import unicodedata
+import re
+
 # Informações sobre o programa
 __author__ = "Patterson A. da Silva jr"
 __copyright__ = "Copyright 2017, "
@@ -45,7 +48,7 @@ def checa_params():
 	""" Checa as opções da linha de comandos """
 
 	try:
-		opts, args = getopt.getopt(sys.argv[1:],"vhn:b:a")
+		opts, args = getopt.getopt(sys.argv[1:],"vhn:b:a:")
 		for opt, arg in opts:
 			if opt == "-b":
 				busca['q'] = arg.replace(" ", "-")
@@ -68,21 +71,34 @@ def checa_params():
 				print( version() )
 				exit(0)
 
-	except getopt.GetoptError:
-	    print (help_msg)
-	    sys.exit(2)
+	except getopt.GetoptError as err:
+		print ( str(err) )
+		print (help_msg)
+		sys.exit(2)
+
+def rm_acentos_e_chars_especiais(palavra):
+	# Unicode normalize transforma um caracter em seu equivalente em latin.
+	nfkd = unicodedata.normalize('NFKD', palavra)
+	palavraSemAcento = u"".join([c for c in nfkd if not unicodedata.combining(c)])
+
+	# Usa expressão regular para retornar a palavra apenas com números, letras e espaço
+	return re.sub('[^a-zA-Z0-9 \\\]', '', palavraSemAcento)
 
 def version():
 	""" Retorna a versão do programa extraída do cabeçalho """
 
-	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ +
-	"\n\nLicença " + __license__ + "\
+	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ + "\n\nLicença " + __license__ + "\
 	\nEste é um software livre: você é livre para alterá-lo e redistribuí-lo.\
 	\nNÃO HÁ GARANTIA, na máxima extensão permitida pela lei\n"
 
 def arquivo(arq):
-	f = open(arq, 'rw', encoding="utf8")
-	bandas = []
+	try:
+		f = open(arq, 'r+', encoding="utf8")
+	except IOError as err:
+		print (str(err))
+		exit(2)
+
+	bandas = list()
 
 	for i, line in enumerate(f):
 		bandas.append(line)
@@ -103,10 +119,13 @@ def main_func():
 	if not busca:
 		string = input('>> Buscar: ')
 		busca['q'] = "-".join( string.split() )
+
 	# Mesmo que o usuário digite 'SyStEm Of A dOwN' na busca, será exibido:
 	# Buscando por System Of A Down...
 	print("\nBuscando por", busca['q'].replace('-', ' ')
 	.lower().title() + "...\n")
+
+	busca['q'] = rm_acentos_e_chars_especiais(busca['q'])
 	# manda o Crawler fazer a busca
 	v.crawler(busca, qtd)
 	print('\n ------------------------------------------------------------- \n')
