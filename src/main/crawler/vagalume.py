@@ -24,12 +24,16 @@ class Vagalume:
 		# Interpreta a resposta e retorna em forma de texto HTML para a variável soup
 		soup = BeautifulSoup(r.text, "lxml")
 
+		# Se passado argumento musica não vazio, busca por todas as musicas que
+		# casem com a palavra fornecida
 		if musica:
-
+			# Busca na lista de todas as musicas
 			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
 
 			print('Resultado: ')
 
+			# Exibe todas as musicas cujo nome contenha a palavra passada na variável musica
+			# ou avisa que não encontrou nenhuma musica
 			for element in lista:
 				for count, span in enumerate( element.findAll('span') ):
 					if musica.lower() in span.text.lower():
@@ -41,8 +45,9 @@ class Vagalume:
 
 			return
 
+		# Se não buscar por musica específica mas pela lista de musicas
 
-		# Se for definido todas, busca as musicas em lista normalmente
+		# Se for definido todas, busca todas as musicas em lista normalmente
 		if todas:
 			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
 		else: # Se não, então busca a lista das mais famosas (a lista com as 25 primeiras na página da banda no vagalume),
@@ -50,7 +55,6 @@ class Vagalume:
 			lista = soup.findAll('ol', attrs={'class' : 'artTops'})
 
 	    # Finalmente exibe a lista de musicas
-
 		# Percorre o ResultSet lista, e para cada elemento encontrado que vai ser uma <ul> ou uma <ol>
 		for element in lista:      # Busca por todos os elemetos <span> dentro de do elemento
 			for count, span in enumerate( element.findAll('span') ):
