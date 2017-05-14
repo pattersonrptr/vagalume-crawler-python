@@ -40,12 +40,12 @@ todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas 
 
 help_msg = "\nUSO: python " + os.path.basename(__file__).split('.')[0] + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
-    -b  \"nome da banda\"   busca as músicas de uma banda.\n\
-    -a  \"bandas.txt\"      permite ler a banda a partir de um arquivo\n\
-    -t                    Listar todas as musicas em ordem alfabética\n\
-    -n                    Quantidade de musicas a listar\n\
-    -v                    mostra a versão e sai\n\
-    -h                    mostra esta mensagem de ajuda e sai\n\n\
+    -b  \"nome da banda\"                   busca as músicas de uma banda.\n\
+    -a  \"../../resources/bandas.txt\"      permite ler a banda a partir de um arquivo\n\
+    -t                                    Listar todas as musicas em ordem alfabética\n\
+    -n                                    Quantidade de musicas a listar\n\
+    -v                                    mostra a versão e sai\n\
+    -h                                    mostra esta mensagem de ajuda e sai\n\n\
 OBS. Nomes de bandas compostos por mais de uma palavra, devem ser\n \
      passados entre aspas, exemplo: \n \
      python " + os.path.basename(__file__) + " -b \"system of a down\"\n"
