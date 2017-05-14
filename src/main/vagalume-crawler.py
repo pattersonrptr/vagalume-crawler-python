@@ -13,7 +13,7 @@
 
 import os                 # Para funções do sistema
 import sys                # para sys.argv
-sys.path.insert(0, '../') # /src
+sys.path.insert(0,'../') # /src
 
 import getopt        # Para tratar as opções de linha de comandos
 import unicodedata   # para remover acentos em strings
@@ -111,24 +111,25 @@ def version():
 	\nNÃO HÁ GARANTIA, na máxima extensão permitida pela lei\n"
 
 def arquivo(arq):
+	""" Exibe uma lista de nomes de bandas gravada num arquivo e
+		pede para o usuário escolher uma banda """
 	try:
-		f = open(arq, 'r+', encoding="utf8")
-	except IOError as err:
-		print (str(err))
+		f = open(arq, 'r+', encoding="utf8")  # tenta abrir o arquivo para ler
+	except IOError as err:					  # se der erro
+		print (str(err))					  # Exibe mensagem de erro e finaliza com código de erro 2
 		exit(2)
 
 	bandas = list()
-
 	print()
-
+	# Exibe lista de bandas
 	for i, line in enumerate(f):
 		bandas.append(line)
 		print(format(i + 1, '02d') +')', line.title())
-
+	# Escolher banda pelo número/código
 	n_banda = int(input(' >> Número da banda a pesquisar: '))
-
+	# Prepara a variável busca
 	busca['q'] = bandas[n_banda - 1].strip().replace(" ", "-")
-
+	# Fecha o arquivo
 	f.close()
 
 def main_func():
@@ -145,10 +146,11 @@ def main_func():
 	# Buscando por System Of A Down...
 	print("\nBuscando por", busca['q'].replace('-', ' ')
 	.lower().title() + "...\n")
-
+	# Retira acentos e caracteres especiais
 	busca['q'] = rm_acentos_e_chars_especiais(busca['q'])
 	# manda o Crawler fazer a busca
 	v.crawler(busca, qtd, todas)
+	
 	print('\n ------------------------------------------------------------- \n')
 
 # ===========================================================================
