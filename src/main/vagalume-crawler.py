@@ -13,13 +13,12 @@
 
 import os                 # Para funções do sistema
 import sys                # para sys.argv
-sys.path.insert(0,'../') # /src
 
 import getopt        # Para tratar as opções de linha de comandos
 import unicodedata   # para remover acentos em strings
 import re            # Para expressões regulares
-
-from crawler.vagalume import Vagalume	# Importa o crawler do Vagalume
+# Importa o crawler do Vagalume
+from crawler.vagalume import Vagalume
 
 # Informações sobre o programa
 __author__ = "Patterson A. da Silva jr"
@@ -40,7 +39,7 @@ todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas 
 
 nome_programa = os.path.basename(__file__).split('.')[0] # Obtém o nome do programa sem a extensão .py
 
-# Mensagem de ajuda que é exibida sempre que passada a opção -h ou após uma menságem de erro
+# Mensagem de ajuda que é exibida sempre que passada a opção -h ou após uma mensagem de erro
 help_msg = "\nUSO: python " + nome_programa + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
     -b  \"nome da banda\"                   busca as músicas de uma banda.\n\
