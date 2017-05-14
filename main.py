@@ -1,7 +1,5 @@
 #! /usr/bin/python3
 
-# TODO: Permitir buscar só as mais tocadas ou todas as músicas
-
 """
 	Programa principal. Implementa um Web Crawler que extrai e lista as
 	músicas de uma determinada banda usando o site www.vagalume.com.br
@@ -35,7 +33,7 @@ args = sys.argv			# Argumentos recebidos da linha de comandos
 args_l = len(sys.argv)	# Quantidade de argumentos passados
 v = Vagalume()			# Crawler do Vagalume
 busca = dict()			# Dicionário de busca
-qtd = 99999				# Quantidade a ser listada
+qtd = 15				# Quantidade a ser listada
 todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas em ordem alfabética
 
 help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma banda\"\n\
@@ -45,7 +43,10 @@ help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma ba
     -t                    Listar todas as musicas em ordem alfabética\n\
     -n                    Quantidade de musicas a listar\n\
     -v                    mostra a versão e sai\n\
-    -h                    mostra esta mensagem de ajuda e sai\n"
+    -h                    mostra esta mensagem de ajuda e sai\n\n\
+OBS. Nomes de bandas compostos por mais de uma palavra, devem ser\n \
+     passados entre aspas, exemplo: \n \
+     python " + os.path.basename(__file__) + " -b \"system of a down\"\n"
 
 def checa_params():
 	""" Checa as opções da linha de comandos """
