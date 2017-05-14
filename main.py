@@ -1,5 +1,7 @@
 #! /usr/bin/python3
 
+# TODO: Permitir buscar só as mais tocadas ou todas as músicas
+
 """
 	Programa principal. Implementa um Web Crawler que extrai e lista as
 	músicas de uma determinada banda usando o site www.vagalume.com.br
@@ -12,16 +14,9 @@
 """
 
 from crawler.Vagalume import Vagalume	# Importa o crawler do Vagalume
-import sys	# Para usar funções do SO e tratar opções de linha de comandos
-import os	# Para paths
-
-# TODO:  ADICIONAR OPÇÃO PARA LER O NOME DA BANDA EM UM ARQUIVO
-# O arquivo pode conter o nome de várias bandas e artistas, separados por
-# um em cada linha ou por um caractere corinda como | #  ou ;
-
-# TODO:Permitir buscar mais do que 15 músicas
-
-# TODO: Permitir buscar só as mais tocadas ou todas as músicas
+import getopt
+import sys
+import os
 
 # Informações sobre o programa
 __author__ = "Patterson A. da Silva jr"
@@ -37,65 +32,44 @@ args = sys.argv			# Argumentos recebidos da linha de comandos
 args_l = len(sys.argv)	# Quantidade de argumentos passados
 v = Vagalume()			# Crawler do Vagalume
 busca = dict()			# Dicionário de busca
+qtd = 15				# Buscar 15 primeiras musicas (padrão)
+
+help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma banda\"\n\
+			\nOpções:\n\
+    -b    busca as músicas de uma banda.\n\
+    -a    permite ler a banda a partir de um arquivo\n\
+    -v    mostra a versão e sai\n\
+    -h    mostra esta mensagem de ajuda e sai\n"
 
 def checa_params():
-	""" Verifica as opções passados pela linha de comandos.
-	Se não for passado uma opção, será pedido ao usuário que forneça a busca
-	através de um input('>> Buscar: '). Também verifica se foi passado parâmetro
-	inválido ou se faltou argumento para alguma opção.
-	caso a função falhe, por falta de parâmetros ou opção inválida, termina o
-	programa retornando erro ao sistema com a função exit( 1 )
-	"""
+	""" Checa as opções da linha de comandos """
+	try:
+		opts, args = getopt.getopt(sys.argv[1:],"vhn:b:a")
+		for opt, arg in opts:
+			if opt == "-b":
+				busca['q'] = arg.replace(" ", "-")
 
-	if args_l >= 2:
-		if args[1] == '-b' or args[1] == '--banda':
-			if args_l > 2:
-				# O vagalume separa palavras por hífens na url de busca
-				# Ex: https://www.vagalume.com.br/black-sabbath/
-				busca['q'] = "-".join(args[2:])
+			elif opt == "-n":
+				global qtd
+				qtd = int(arg)
 
-			else:
-				print("Erro: A opção ", args[1], "necessita parâmetros")
-				exit(1)  # Sai e avisa o SO que houve um erro
+			elif opt == "-a":
+				if '-b' not in args:
+					arquivo()
 
-		elif args[1] == '-n' or args[1] == '--number':
-			if args_l > 2:
-				try:
-					val = int(args[2])
-				except ValueError:
-					print("Erro: A opção", args[1], "espera um número inteiro")
-					exit(1)
-			else:
-				print("Erro: A opção ", args[1], "necessita parâmetros")
-				exit(1)
+			elif opt == "-v":
+				print( version() )
+				exit( 0 )
 
-		elif args[1] == '-a' or args[1] == '--arquivo':
-			pass
+			elif opt == "-h":
+				print(help_msg)
+				print("Author: " + __author__)
+				print( version() )
+				exit(0) # Sai sem erro
 
-		elif args[1] == '-V' or args[1] == '--version':
-			print( version() )
-			exit( 0 )
-
-		elif args[1] == '-h' or args[1] == '--help':
-			print('\nUSO: %s -b nome de uma banda' % args[0])
-			print('\nOpções:\n')
-			print('-b, --banda      busca as músicas de uma banda.')
-			print('-a, --arquivo    permite ler a banda a partir de um arquivo')
-			print('-V, --version    mostra a versão e sai.')
-			print('-h, --help       mostra esta mensagem de ajuda e sai.')
-
-			print( version() )
-
-			exit(0) # Sai sem erro
-
-		else:
-			print("Erro: Opção inválida ", args[1])
-			exit(1) # Sai e avisa o SO que houve um erro
-	else:
-		# Caso não o nome da banda não passado via linha de comando,
-		# o usuário deve irnserí-lo via input()
-		string = input('>> Buscar: ')
-		busca['q'] = "-".join( string.split()  )
+	except getopt.GetoptError:
+	    print (help_msg)
+	    sys.exit(2)
 
 def version():
 	""" Retorna a versão do programa extraída do cabeçalho """
@@ -104,30 +78,44 @@ def version():
 	\nEste é um software livre: você é livre para alterá-lo e redistribuí-lo.\
 	\nNÃO HÁ GARANTIA, na máxima extensão permitida pela lei\n"
 
-
 def arquivo():
-	# TODO
-	""" Lê uma banda de um arquivo """
-	pass
+	f = open('bandas.txt', 'r', encoding="utf8")
+	bandas = []
 
+	for i, line in enumerate(f):
+		bandas.append(line)
+		print(format(i + 1, '02d') +')', line)
+
+	n_banda = int(input(' >> Número da banda a pesquisar: '))
+
+	busca['q'] = bandas[n_banda - 1].strip().replace(" ", "-")
+
+	f.close()
 
 def main_func():
 	""" Função principal que executa o programa todo. """
 
 	# Checa opções de linha de comandos
 	checa_params()
+	# Se não foi passado a opção -b, lê do teclado
+	if not busca:
+		string = input('>> Buscar: ')
+		busca['q'] = "-".join( string.split() )
 	# Mesmo que o usuário digite 'SyStEm Of A dOwN' na busca, será exibido:
 	# Buscando por System Of A Down...
 	print("\nBuscando por", busca['q'].replace('-', ' ')
 	.lower().title() + "...\n")
 	# manda o Crawler fazer a busca
-	v.crawler(busca)
-	print('\n-----------------------------------------------------------\n')
+	v.crawler(busca, qtd)
+	print('\n ------------------------------------------------------------- \n')
 
 # ===========================================================================
 
 if __name__ == "__main__":
-
 	main_func() # Inicio do programa
+
+
+
+
 
 # Fim
