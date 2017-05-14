@@ -33,5 +33,5 @@ class Vagalume:
 		for element in lista:      # Busca por todos os elemetos <span> dentro de do elemento
 			for count, span in enumerate( element.findAll('span') ):
 				print(format(count + 1, '02d') +')', span.text)     # Exibe o conteúdo da <span> que deve ser o Nome da Musica
-				if count + 1 == qtd:	 # Se atingir o limite fornrcido pelo usuário ou o padrão 15
+				if count + 1 == qtd:	 # Se atingir o limite fornecido pelo usuário ou o padrão 15
 					break				 # termina o loop
