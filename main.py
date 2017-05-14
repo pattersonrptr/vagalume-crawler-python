@@ -89,7 +89,7 @@ def rm_acentos_e_chars_especiais(palavra):
 	nfkd = unicodedata.normalize('NFKD', palavra)
 	palavraSemAcento = u"".join([c for c in nfkd if not unicodedata.combining(c)])
 
-	# Usa expressão regular para retornar a palavra apenas com números, letras e espaço
+	# Regex para retornar a palavra apenas com números, letras e espaço
 	return re.sub('[^a-zA-Z0-9 \\\]', '', palavraSemAcento)
 
 def version():

@@ -1,4 +1,5 @@
-""" Crawler que extrai uma lista de músicas do Vagalume """
+""" Módulo Vagalume.
+ 	contém a classe vagalume que implementa o Crawler."""
 
 import requests					# Para fazer requisições HTTP
 from bs4 import BeautifulSoup	# Para extrair dados de arquivos HTML
@@ -19,7 +20,6 @@ class Vagalume:
 			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
 		else:
 			lista = soup.findAll('ol', attrs={'class' : 'artTops'})
-
 
 		for element in lista:
 			for count, span in enumerate( element.findAll('span') ):
