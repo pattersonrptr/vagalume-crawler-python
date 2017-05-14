@@ -38,7 +38,7 @@ busca = dict()			# Dicionário de busca
 qtd = 15				# Quantidade a ser listada
 todas = False			# Flase, lista só as mais tocadas, True Lista todas as musicas em ordem alfabética
 
-help_msg = "\nUSO: python " + os.path.basename(__file__) + " -b \"nome de uma banda\"\n\
+help_msg = "\nUSO: python " + os.path.basename(__file__).split('.')[0] + " -b \"nome de uma banda\"\n\
 			\nOpções:\n\
     -b  \"nome da banda\"   busca as músicas de uma banda.\n\
     -a  \"bandas.txt\"      permite ler a banda a partir de um arquivo\n\
@@ -55,6 +55,7 @@ def checa_params():
 
 	try:
 		opts, args = getopt.getopt(sys.argv[1:],"vhtn:b:a:")
+
 		for opt, arg in opts:
 			if opt == "-b":
 				busca['q'] = arg.replace(" ", "-")
@@ -110,9 +111,11 @@ def arquivo(arq):
 
 	bandas = list()
 
+	print()
+
 	for i, line in enumerate(f):
 		bandas.append(line)
-		print(format(i + 1, '02d') +')', line)
+		print(format(i + 1, '02d') +')', line.title())
 
 	n_banda = int(input(' >> Número da banda a pesquisar: '))
 
@@ -143,11 +146,4 @@ def main_func():
 # ===========================================================================
 
 if __name__ == "__main__":
-	
 	main_func() # Inicio do programa
-
-
-
-
-
-# Fim
