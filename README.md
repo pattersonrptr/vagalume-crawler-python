@@ -1,6 +1,4 @@
-
-
-Exemplos de uso
+<h3>Exemplos de uso</h3>
 
 Busca todas que possuirem a palavra 'soldier':
 
