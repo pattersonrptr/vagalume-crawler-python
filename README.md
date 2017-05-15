@@ -59,7 +59,7 @@ Buscando por Black Sabbath...
 Busca uma lista de bandas em um arquivo e pede para o usuario selecionar uma para ver as musicas:
 
 <pre>
-python3 vagalume-crawler.py -a ./src/resources/bandas.txt -n5
+$ python3 vagalume-crawler.py -a ./src/resources/bandas.txt -n5
 
 01) Black Sabbath
 02) System Of A Down
@@ -76,7 +76,7 @@ python3 vagalume-crawler.py -a ./src/resources/bandas.txt -n5
 13) Aerosmith
 14) Legião Urbana
 
- >> Número da banda a pesquisar: 10
+  Número da banda a pesquisar: 10
 
 Buscando por Korn...
 
@@ -89,9 +89,9 @@ Buscando por Korn...
 
 Se chamado sem passar a opção -b ou a -a, pede para o usuário inserir o nome da banda, se não fornecido -n, mostra as 15 primeiras musicas:
 
-</pre>
+<pre>
 $ python3 vagalume-crawler.py
->> Buscar: 'linkin park'   
+ Buscar: 'linkin park'   
 
 Buscando por 'Linkin Park'...
 
@@ -120,7 +120,7 @@ python3 vagalume-crawler.py -h
 
 Mostra a versão do programa:
 
-</pre>
+<pre>
 python3 vagalume-crawler.py -v
 </pre>
 
