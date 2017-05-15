@@ -11,15 +11,16 @@ class Vagalume:
 
 	def crawler(self, busca, qtd = 15, todas = False, musica = str()):
 		""" Extrai as músicas da banda passada pelo url
-		 	Recebe a busca, a quantidade a buscar (opcional)
-			e se deve buscar todas (opcional) .
-			Se a variável musica não for vazia, então busca uma musica
+		 	Recebe a busca, a quantidade a buscar (opicional)
+			e se deve buscar todas (opicional) .
+			Se a variável musica (opcional) não for vazia, então busca uma musica
 			específica na lista de musicas.
 		"""
 
+		encontrou = False # Variável para verificar se encontrou musica específicada na linha de comandos
+
 		url = 'https://www.vagalume.com.br/%(q)s/' # Prepara a URL de busca
 		r = requests.get(url % busca)			   # Obtem a resposta do site com o HTML
-		encontrou = False # Verifica se encontrou musica específica
 
 		# Interpreta a resposta e retorna em forma de texto HTML para a variável soup
 		soup = BeautifulSoup(r.text, "lxml")
@@ -28,7 +29,7 @@ class Vagalume:
 		# casem com a palavra fornecida
 		if musica:
 			# Busca na lista de todas as musicas
-			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
+			lista = soup.findAll('ul', attrs = {'class' : 'tracks'})
 
 			print('Resultado: ')
 
@@ -49,10 +50,10 @@ class Vagalume:
 
 		# Se for definido todas, busca todas as musicas em lista normalmente
 		if todas:
-			lista = soup.findAll('ul', attrs={'class' : 'tracks'})
+			lista = soup.findAll('ul', attrs = {'class' : 'tracks'})
 		else: # Se não, então busca a lista das mais famosas (a lista com as 25 primeiras na página da banda no vagalume),
 			  #  mas respeitando o limite 'qtd' cujo padrão é 15
-			lista = soup.findAll('ol', attrs={'class' : 'artTops'})
+			lista = soup.findAll('ol', attrs = {'class' : 'artTops'})
 
 	    # Finalmente exibe a lista de musicas
 		# Percorre o ResultSet lista, e para cada elemento encontrado que vai ser uma <ul> ou uma <ol>
