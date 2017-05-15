@@ -114,7 +114,7 @@ def rm_acentos_e_chars_especiais(palavra):
 def version():
 	""" Retorna a versão do programa """
 
-	return 	"\n" + os.path.basename(__file__) +  " Ver: " + __version__ + "\n\nLicença " + __license__ + "\
+	return 	"\n" + nome_programa +  " Ver: " + __version__ + "\n\nLicença " + __license__ + "\
 	\nEste é um software livre: você é livre para alterá-lo e redistribuí-lo.\
 	\nNÃO HÁ GARANTIA, na máxima extensão permitida pela lei\n"
 
